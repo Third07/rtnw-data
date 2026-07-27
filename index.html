@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTNW Skill Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1>Skill Simulator</h1>
+                <div class="job-select-shell">
+                    <select id="quick-job-select" style="display: none;"></select>
+                    <button id="quick-job-select-button" class="job-select-button" aria-expanded="false">
+                        <div class="job-select-button-content">
+                            <span class="job-select-button-label">Select a job...</span>
+                        </div>
+                    </button>
+                    <div id="quick-job-select-popover" class="job-select-popover" hidden>
+                        <ul id="quick-job-select-list" class="job-select-list" role="listbox"></ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="simulator-layout">
+            <!-- Skill Details Sidebar (Desktop) -->
+            <aside id="skill-planner-sidebar" class="skill-detail-sidebar">
+                <div id="skill-detail-content" class="skill-detail-content">
+                    <div class="details-placeholder">Select a skill to see details.</div>
+                </div>
+            </aside>
+
+            <!-- Main Simulator Container -->
+            <main class="simulator-main">
+                <div id="simulator-container" class="simulator-container"></div>
+                <div id="skill-planner-job-host" class="skill-planner-job-host"></div>
+            </main>
+
+            <!-- Unique Skills Panel -->
+            <aside id="unique-skill-panel" class="unique-skill-panel" hidden>
+                <div id="unique-skill-content" class="unique-skill-content"></div>
+            </aside>
+        </div>
+
+        <!-- Mobile Unique Skills Host -->
+        <div id="skill-planner-mobile-job-host" class="skill-planner-mobile-job-host"></div>
+
+        <!-- Tooltip -->
+        <div id="tooltip" class="tooltip hidden"></div>
+
+        <!-- Skill Detail Modal -->
+        <dialog id="skill-detail-modal" class="skill-detail-modal" aria-hidden="true" inert>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="skill-detail-modal-title">Skill Details</h2>
+                    <button type="button" data-skill-modal-close class="modal-close" aria-label="Close">×</button>
+                </div>
+                <div id="skill-detail-modal-content" class="modal-body"></div>
+            </div>
+        </dialog>
+    </div>
+
+    <script src="data/simulator.js"></script>
+</body>
+</html>
