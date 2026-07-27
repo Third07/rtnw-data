@@ -1,5 +1,5 @@
 const CONFIG = {
-    iconBasePath: "/media/images/"
+    iconBasePath: "/images/skill/"
 }, withAssetVersion = window.withAssetVersion || (e => e), SUPPORTED_LOCALES = [ "zh-TW", "en-US", "zh-CN", "th-TH", "id-ID" ];
 
 function detectLocale() {
