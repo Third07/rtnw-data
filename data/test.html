@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RTNW Skill Test</title>
+</head>
+<body>
+
+<h2>Loading...</h2>
+
+<div id="skills"></div>
+
+<script>
+fetch("data/jobs_en-US/201.json")
+.then(r => r.json())
+.then(job => {
+
+    document.querySelector("h2").textContent = job.job.name;
+
+    let html = "";
+
+    job.skills.forEach(skill => {
+
+        html += `
+        <div style="margin:15px;padding:10px;border:1px solid #ccc">
+            <img src="data/images/${skill.icon}" width="48">
+            <b>${skill.name}</b><br>
+            Max Lv: ${skill.max_level}
+        </div>
+        `;
+    });
+
+    document.getElementById("skills").innerHTML = html;
+
+})
+.catch(console.error);
+</script>
+
+</body>
+</html>
