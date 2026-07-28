@@ -286,7 +286,7 @@ function getCurrentUniqueSkillContext(e = state.jobPath) {
         uniqueSkills: {}
     };
 }
-
+(function(){ const DEFAULT_ICON = withAssetVersion('/media/images/_missing.svg'); document.addEventListener('error', function handleImgError(e){ const t = e.target; if (!t || t.tagName !== 'IMG') return; if (t.dataset._missingHandled) return; t.dataset._missingHandled = '1'; try { t.src = DEFAULT_ICON; } catch (err) { /* ignore */ } }, true); })();
 // ... rest of original simulator.js unchanged ...
 
 document.addEventListener("DOMContentLoaded", initSimulator);
