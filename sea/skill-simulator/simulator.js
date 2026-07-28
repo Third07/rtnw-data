@@ -27,7 +27,7 @@ const ACTIVE_LOCALE = detectLocale();
 
 localStorage.setItem("ro_lang", ACTIVE_LOCALE), document.documentElement.setAttribute("lang", ACTIVE_LOCALE);
 
-const GRID_COLUMNS = 5, ICON_PATHS_URL = "data/icon_paths.json", SKILLS_INDEX_URL = `data/skills_index_${ACTIVE_LOCALE}.json`, JOB_DATA_URL = e => `data/jobs_${ACTIVE_LOCALE}/${e}.json`, JOB_SELECTION_PLACEHOLDER_BY_LOCALE = {
+const GRID_COLUMNS = 5, ICON_PATHS_URL = "sea/skill-simulator/data/icon_paths.json", SKILLS_INDEX_URL = `sea/skill-simulator/data/skills_index_${ACTIVE_LOCALE}.json`, JOB_DATA_URL = e => `sea/skill-simulator/data/jobs_${ACTIVE_LOCALE}/${e}.json`, JOB_SELECTION_PLACEHOLDER_BY_LOCALE = {
     "zh-TW": "選擇職業...",
     "en-US": "Select a Target Job...",
     "zh-CN": "选择职业...",
