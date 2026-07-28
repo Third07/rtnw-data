@@ -3,7 +3,13 @@ const CONFIG = {
 }, withAssetVersion = window.withAssetVersion || (e => e), SUPPORTED_LOCALES = [ "zh-TW", "en-US", "zh-CN", "th-TH", "id-ID" ];
 
 function detectLocale() {
-    const e = new URLSearchParams(window.location.search).get("lang"), t = localStorage.getItem("ro_lang"), n = document.documentElement.getAttribute("lang"), l = Array.isArray(navigator.languages)[...]
+    const e = new URLSearchParams(window.location.search).get("lang"), t = localStorage.getItem("ro_lang"), n = document.documentElement.getAttribute("lang"), l = Array.isArray(navigator.languages) ? navigator.languages : [navigator.language || navigator.userLanguage || "en-US"]; // simplified
+    const i = [];
+    if (e) i.push(e);
+    if (t) i.push(t);
+    if (n) i.push(n);
+    i.push(...l);
+    function o(e){return SUPPORTED_LOCALES.includes(e)}
     for (const e of i) {
         if (!e) continue;
         const t = SUPPORTED_LOCALES.find(t => t.toLowerCase() === String(e).toLowerCase());
@@ -28,7 +34,7 @@ const ACTIVE_LOCALE = "en-US";
 
 localStorage.setItem("ro_lang", ACTIVE_LOCALE), document.documentElement.setAttribute("lang", ACTIVE_LOCALE);
 
-const GRID_COLUMNS = 5, ICON_PATHS_URL = "data/icon_paths.json", SKILLS_INDEX_URL = `data/skills_index_${ACTIVE_LOCALE}.json`, JOB_DATA_URL = e => `data/jobs_${ACTIVE_LOCALE}/${e}.json`, JOB_SELEC[...]
+const GRID_COLUMNS = 5, ICON_PATHS_URL = "data/icon_paths.json", SKILLS_INDEX_URL = `data/skills_index_${ACTIVE_LOCALE}.json`, JOB_DATA_URL = e => `data/jobs_${ACTIVE_LOCALE}/${e}.json`, JOB_SELECTION_PLACEHOLDER_BY_LOCALE = {
     "zh-TW": "選擇職業...",
     "en-US": "Select a Target Job...",
     "zh-CN": "选择职业...",
@@ -286,7 +292,21 @@ function getCurrentUniqueSkillContext(e = state.jobPath) {
         uniqueSkills: {}
     };
 }
-(function(){ const DEFAULT_ICON = withAssetVersion('/media/images/_missing.svg'); document.addEventListener('error', function handleImgError(e){ const t = e.target; if (!t || t.tagName !== 'IMG') return; if (t.dataset._missingHandled) return; t.dataset._missingHandled = '1'; try { t.src = DEFAULT_ICON; } catch (err) { /* ignore */ } }, true); })();
-// ... rest of original simulator.js unchanged ...
+
+// -- many more functions remain unchanged in the original file --
+
+// Fallback for missing icons: replace broken <img> with a lightweight placeholder.
+(function(){
+  const DEFAULT_ICON = withAssetVersion('/media/images/_missing.svg');
+  // Use capture phase to catch resource load errors on img elements
+  document.addEventListener('error', function handleImgError(e){
+    const t = e.target;
+    if (!t || t.tagName !== 'IMG') return;
+    // avoid infinite loop
+    if (t.dataset._missingHandled) return;
+    t.dataset._missingHandled = '1';
+    try { t.src = DEFAULT_ICON; } catch (err) { /* ignore */ }
+  }, true);
+})();
 
 document.addEventListener("DOMContentLoaded", initSimulator);
