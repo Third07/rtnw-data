@@ -1,33 +1,13 @@
 const CONFIG = {
-    iconBasePath: "/media/images/"
-}, withAssetVersion = window.withAssetVersion || (e => e), SUPPORTED_LOCALES = [ "zh-TW", "en-US", "zh-CN", "th-TH", "id-ID" ];
+    iconBasePath: "media/images/"
+}, withAssetVersion = window.withAssetVersion || (e => e);
 
-function detectLocale() {
-    const e = new URLSearchParams(window.location.search).get("lang"), t = localStorage.getItem("ro_lang"), n = document.documentElement.getAttribute("lang"), l = Array.isArray(navigator.languages) ? navigator.languages : [], i = [ e, (navigator.language || "").trim(), ...l, t, n ], o = e => SUPPORTED_LOCALES.some(t => t.toLowerCase() === String(e).toLowerCase());
-    for (const e of i) {
-        if (!e) continue;
-        const t = SUPPORTED_LOCALES.find(t => t.toLowerCase() === String(e).toLowerCase());
-        if (t) return t;
-    }
-    for (const e of i) {
-        if (!e) continue;
-        const t = String(e).split("-")[0].toLowerCase();
-        if ("zh" === t) {
-            if (o("zh-TW")) return "zh-TW";
-            const e = SUPPORTED_LOCALES.find(e => e.toLowerCase().startsWith("zh-"));
-            if (e) return e;
-        }
-        if ("en" === t && o("en-US")) return "en-US";
-        if (("id" === t || "in" === t) && o("id-ID")) return "id-ID";
-    }
-    return o("en-US") ? "en-US" : o("zh-TW") ? "zh-TW" : SUPPORTED_LOCALES[0] || "en-US";
-}
+// Locale detection removed — hardcoded to English (en-US) only, matching smoke-test.html.
+const ACTIVE_LOCALE = "en-US";
 
-const ACTIVE_LOCALE = detectLocale();
+document.documentElement.setAttribute("lang", ACTIVE_LOCALE);
 
-localStorage.setItem("ro_lang", ACTIVE_LOCALE), document.documentElement.setAttribute("lang", ACTIVE_LOCALE);
-
-const GRID_COLUMNS = 5, ICON_PATHS_URL = "data/icon_paths.json", SKILLS_INDEX_URL = `data/skills_index_${ACTIVE_LOCALE}.json`, JOB_DATA_URL = e => `data/jobs_${ACTIVE_LOCALE}/${e}.json`, JOB_SELECTION_PLACEHOLDER_BY_LOCALE = {
+const GRID_COLUMNS = 5, DATA_BASE_PATH = "sea/skill-simulator/data/", ICON_PATHS_URL = `${DATA_BASE_PATH}icon_paths.json`, SKILLS_INDEX_URL = `${DATA_BASE_PATH}skills_index_${ACTIVE_LOCALE}.json`, JOB_DATA_URL = e => `${DATA_BASE_PATH}jobs_${ACTIVE_LOCALE}/${e}.json`, JOB_SELECTION_PLACEHOLDER_BY_LOCALE = {
     "zh-TW": "選擇職業...",
     "en-US": "Select a Target Job...",
     "zh-CN": "选择职业...",
@@ -43,7 +23,7 @@ const lastPointerPos = {
 
 let tooltipAnchorEl = null, tooltipAnchorKindId = null, tooltipPlacement = null, outlineRefreshFrame = 0, outlineResizeObserver = null, lastSkillModalTriggerEl = null;
 
-const MOBILE_SKILL_PLANNER_MEDIA = "(max-width: 768px), (max-width: 1371px)", TAG_COLOR_BY_ICON = {
+const MOBILE_SKILL_PLANNER_MEDIA = "(max-width: 1100px)", TAG_COLOR_BY_ICON = {
     icon_skilltype_01: "#A0E589",
     icon_skilltype_02: "#F6B965",
     icon_skilltype_03: "#DA9BF1",
@@ -1656,4 +1636,16 @@ function formatDesc(e) {
     return e ? e.replace(/<color=#([0-9a-fA-F]+)>(.*?)<\/color>/g, '<span style="color:#$1">$2</span>').replace(/\n/g, "<br>") : "";
 }
 
-document.addEventListener("DOMContentLoaded", initSimulator);
+// This file is injected via a dynamically-created <script> tag in index.html.
+// Setting `.defer = true` on a script created that way has no effect (defer
+// only applies to scripts present in the original parsed HTML) — the browser
+// loads it as `async` instead. That means DOMContentLoaded can fire *before*
+// this script finishes loading, so a plain `addEventListener` here can attach
+// after the event already happened and initSimulator() would silently never
+// run (no error, no fetches — exactly the "blank page" symptom). Handle both
+// orderings explicitly.
+if ("loading" === document.readyState) {
+    document.addEventListener("DOMContentLoaded", initSimulator);
+} else {
+    initSimulator();
+}

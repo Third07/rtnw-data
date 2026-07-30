@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — RO World Journey</title>
+  <link rel="stylesheet" href="/sea/ro-theme.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap">
+  <style>
+    .error-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: var(--space-6);
+    }
+    .error-code {
+      font-family: var(--font-heading);
+      font-size: clamp(4rem, 15vw, 8rem);
+      font-weight: 800;
+      color: var(--gold);
+      text-shadow: 0 2px 20px var(--gold-glow);
+      line-height: 1;
+    }
+    .error-title {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      color: var(--text-on-dark);
+      margin: var(--space-4) 0;
+    }
+    .error-desc {
+      color: var(--text-muted-dark);
+      font-size: 0.95rem;
+      margin-bottom: var(--space-6);
+    }
+    .error-home {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-6);
+      background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 100%);
+      color: #2c1810;
+      font-weight: 700;
+      border-radius: var(--radius);
+      text-decoration: none;
+      border: 2px solid var(--gold-dark);
+      box-shadow: 0 3px 0 var(--gold-dark), var(--shadow-soft);
+      transition: var(--transition);
+      min-height: var(--min-tap-target);
+    }
+    .error-home:hover { transform: translateY(-2px); box-shadow: 0 5px 0 var(--gold-dark), var(--shadow); }
+    .error-home:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--gold-dark); }
+  </style>
+</head>
+<body>
+  <div class="error-page">
+    <div class="error-code">404</div>
+    <h1 class="error-title">Page Not Found</h1>
+    <p class="error-desc">The adventurer's path you seek does not exist in this realm.</p>
+    <a href="/" class="error-home">Return to Town</a>
+  </div>
+</body>
+</html>
